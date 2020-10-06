@@ -109,7 +109,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         }
         //quick and dirty fix for mysql 8
         $dbKey=$key;
-        if($key==='grouping' && $entity instanceof FieldValue){
+        if($key==='grouping' && get_class($entity) === "Bolt\Storage\Entity\FieldValue"){
             $dbKey='bolt_field_value.grouping';
         }
 
