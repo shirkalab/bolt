@@ -107,8 +107,14 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
         } elseif (isset($this->mapping['default'])) {
             $value = $this->mapping['default'];
         }
-        $qb->setValue($key, ':' . $key);
-        $qb->set($key, ':' . $key);
+        //quick and dirty fix for mysql 8
+        $dbKey=$key;
+        if($key==='grouping' && $entity instanceof FieldValue){
+            $dbKey='bolt_field_value.grouping';
+        }
+
+        $qb->setValue($dbKey, ':' . $key);
+        $qb->set($dbKey, ':' . $key);
         $qb->setParameter($key, $value);
     }
 
